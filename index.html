@@ -575,7 +575,6 @@ html:not(.unlocked){overflow:hidden}
         <p class="status" id="saved" aria-live="polite"></p>
         <div class="preview" id="preview"></div>
         <a class="btn" id="wa" href="https://wa.me/" target="_blank" rel="noopener">Enviar por WhatsApp</a>
-        <button class="btn alt" type="button" id="copy">Copiar mensaje</button>
         <p class="status" id="status" aria-live="polite"></p>
         <ol class="steps" id="steps">
           <li>Toca "Enviar por WhatsApp".</li>
@@ -860,19 +859,6 @@ var CONFIG = {
 
   $("back").addEventListener("click", function(){ result.hidden = true; form.hidden = false; $("nombre").focus(); });
 
-  $("copy").addEventListener("click", function(){
-    var s = $("status");
-    function fallback(){
-      var r = document.createRange(); r.selectNodeContents($("preview"));
-      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-      s.textContent = "Selecciona el texto y cópialo desde el menú del móvil.";
-    }
-    try {
-      navigator.clipboard.writeText(message).then(function(){
-        s.textContent = "Mensaje copiado. Pégalo en el chat de WhatsApp.";
-      }, fallback);
-    } catch (err) { fallback(); }
-  });
 
   /* ---------- Pétalos ---------- */
   if (reduce) return;
