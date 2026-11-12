@@ -84,8 +84,8 @@ html.opening .card{transform:translateY(-84%)}
 .p-left{background:var(--e-left);clip-path:polygon(0 0,50% 52%,0 100%)}
 .p-right{background:var(--e-right);clip-path:polygon(100% 0,50% 52%,100% 100%)}
 .p-bottom{background:linear-gradient(180deg,var(--e-bottom),#7ab8e2);clip-path:polygon(0 100%,50% 52%,100% 100%)}
-.label{left:0;right:0;bottom:9%;z-index:3;text-align:center;font:500 2.2cqw/1.7 var(--body);letter-spacing:.34em;text-transform:uppercase;color:rgba(22,62,100,.72)}
-.label b{display:block;font:italic 400 4.6cqw/1.2 var(--display);letter-spacing:.04em;text-transform:none;color:rgba(22,62,100,.92)}
+.label{left:0;right:0;bottom:4%;z-index:3;text-align:center;font:500 2.2cqw/1.7 var(--body);letter-spacing:.34em;text-transform:uppercase;color:rgba(22,62,100,.72)}
+.label b{display:block;font:italic 400 5.9cqw/1.12 var(--display);letter-spacing:.02em;text-transform:none;color:rgba(22,62,100,.95);padding:0 5%;margin-bottom:.8cqw;text-wrap:balance}
 .flap{left:0;top:0;width:100%;height:52%;z-index:4;transform-origin:50% 0;transform-style:preserve-3d;transition:transform .95s cubic-bezier(.55,0,.25,1) .45s,z-index 0s .8s}
 .flap::before,.flap::after{content:"";position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 100%);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .flap::before{background:linear-gradient(180deg,var(--e-flap),var(--e-flap2))}
@@ -523,6 +523,10 @@ html.opening .sp{display:none}
           <input type="radio" id="si" name="asis" value="si" checked><label for="si">Sí, allí estaré</label>
           <input type="radio" id="no" name="asis" value="no"><label for="no">No podré ir</label>
         </fieldset>
+        <div id="soloAcompBox" hidden>
+          <label for="soloAcomp" id="soloAcompLbl">¿Viene tu acompañante?</label>
+          <select id="soloAcomp" name="soloAcomp"><option value="0">No, tampoco vendrá</option><option value="1">Sí, vendrá solo</option></select>
+        </div>
         <div id="extra" style="display:flex;flex-direction:column;gap:30px">
           <div id="acompBox">
             <label for="acomp" id="acompLbl">Acompañantes</label>
@@ -688,6 +692,9 @@ var CONFIG = {
       else {
         $("acompLbl").textContent = acompNombre ? "¿Venís " + (inv ? inv.split(" ")[0] : "tú") + " y " + acompNombre.split(" ")[0] + "?" : "¿Venís los dos?";
         $("acomp").innerHTML = '<option value="1">Sí, vamos los dos</option><option value="0">Solo yo</option>';
+        var an = acompNombre ? acompNombre.split(" ")[0] : "tu acompañante";
+        $("soloAcompLbl").textContent = "¿Viene " + an + " sin ti?";
+        $("soloAcomp").innerHTML = '<option value="0">No, tampoco vendrá</option><option value="1">Sí, ' + an.replace(/[<>&"]/g,"") + ' vendrá solo/a</option>';
       }
     }
   } catch (e) {}
@@ -723,7 +730,13 @@ var CONFIG = {
 
   /* ---------- Formulario ---------- */
   var form = $("form"), result = $("result");
-  function toggleExtra(){ $("extra").hidden = form.asis.value === "no"; }
+  function toggleExtra(){
+    var no = form.asis.value === "no";
+    var sa = $("soloAcompBox"), solo = no && plazas === 2 && $("soloAcomp").value === "1";
+    sa.hidden = !(no && plazas === 2);
+    $("extra").hidden = no && !solo;
+    $("acompBox").hidden = plazas === 1 || solo;
+  }
   form.addEventListener("change", toggleExtra);
   toggleExtra();
 
@@ -734,8 +747,14 @@ var CONFIG = {
     if (!nombre) { $("err").textContent = "Escribe tu nombre para que sepamos quién eres."; $("nombre").focus(); return; }
     $("err").textContent = "";
     var vienes = form.asis.value === "si";
+    var soloAc = !vienes && plazas === 2 && $("soloAcomp").value === "1";
     var rows = [["👤", "Nombre", nombre]];
-    if (vienes) {
+    if (soloAc) {
+      var menuA = $("menu").value.trim();
+      rows.push(["❌", "Asistencia", "Yo no podré asistir"]);
+      rows.push(["👥", "Acompañante", (acompNombre || "Mi acompañante") + " viene solo/a"]);
+      rows.push(["🍽️", "Alergias o menú", menuA || "Ninguno"]);
+    } else if (vienes) {
       var n = +$("acomp").value, menu = $("menu").value.trim();
       rows.push(["✅", "Asistencia", "Sí, allí estaré"]);
       rows.push(["👥", "Acompañantes", n ? (acompNombre ? acompNombre + " (en total somos 2)" : "Un acompañante (en total somos 2)") : "Ninguno"]);
@@ -746,9 +765,10 @@ var CONFIG = {
     var m = $("msg").value.trim();
     if (m) rows.push(["💬", "Mensaje", m]);
     var head = "Boda de Ismael y José Manuel · 19 de diciembre de 2026";
+    var cierre = soloAc ? "¡Nos vemos allí! 🥂" : (vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍");
     message = "💌 *Confirmación de asistencia*\n" + head + "\n\n" +
       rows.map(function(r){ return r[0] + " *" + r[1] + ":* " + r[2]; }).join("\n") +
-      "\n\n" + (vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍");
+      "\n\n" + cierre;
     var pv = $("preview"); pv.textContent = "";
     var t1 = document.createElement("p"); t1.className = "pv-t"; t1.textContent = "💌 Confirmación de asistencia"; pv.appendChild(t1);
     var t2 = document.createElement("p"); t2.className = "pv-s"; t2.textContent = head; pv.appendChild(t2);
@@ -777,8 +797,9 @@ var CONFIG = {
     }
     if (!CONFIG.hoja) { showResult(false); return; }
     var btn = form.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Enviando…";
-    var payload = {nombre: nombre, asiste: vienes ? "Sí" : "No", acompanantes: vienes ? +$("acomp").value : 0,
-      menu: vienes ? $("menu").value.trim() : "", mensaje: m};
+    var quien = soloAc ? "Solo acompañante" : vienes ? (plazas === 2 && +$("acomp").value ? "Los dos" : "Solo invitado") : "Ninguno";
+    var payload = {nombre: nombre, asiste: vienes ? "Sí" : "No", acompanantes: vienes ? +$("acomp").value : (soloAc ? 1 : 0),
+      quien: quien, menu: (vienes || soloAc) ? $("menu").value.trim() : "", mensaje: m};
     var to = new AbortController(); var tm = setTimeout(function(){ to.abort(); }, 15000);
     fetch(CONFIG.hoja, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
       body: JSON.stringify(payload), signal: to.signal})
