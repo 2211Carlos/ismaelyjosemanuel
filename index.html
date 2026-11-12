@@ -194,6 +194,7 @@ input[type=text],textarea,select{width:100%;font:400 22px/1.4 var(--display);col
 textarea{min-height:92px;resize:vertical}
 input[type=text]:focus,textarea:focus,select:focus{border-bottom-color:var(--wax);box-shadow:0 1px 0 var(--wax)}
 ::placeholder{color:var(--muted);opacity:.7}
+input[readonly]{cursor:default;border-bottom-color:var(--line)!important;box-shadow:none!important;opacity:.95}
 .alg{display:flex;flex-direction:column;gap:18px}
 .alg fieldset{border:0;margin:0;padding:0;min-width:0}
 .alg legend{padding:0;margin:0 0 8px;font:italic 400 22px var(--display);color:var(--fg)}
@@ -714,7 +715,7 @@ var CONFIG = {
     if (inv) {
       var etiqueta = "Para " + inv + (plazas === 2 ? (acompNombre ? " y " + acompNombre : " y acompañante") : "");
       var lb = document.querySelector(".label b"); if (lb) lb.textContent = etiqueta;
-      var nm = $("nombre"); if (nm) nm.value = inv;
+      var nm = $("nombre"); if (nm) { nm.value = inv; nm.readOnly = true; nm.setAttribute("aria-readonly","true"); }
       env.setAttribute("aria-label", "Abrir la invitación de boda de Ismael y José Manuel. " + etiqueta);
     }
     if (plazas) {
