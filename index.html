@@ -6,10 +6,10 @@
 <meta name="description" content="Ismael y José Manuel se casan el 19 de diciembre de 2026 en Lepe. Abre el sobre y confirma tu asistencia.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
-<meta property="og:title" content="💌 Ismael y José Manuel se casan">
-<meta property="og:description" content="19 de diciembre de 2026 · Lepe. Abre el sobre y confirma tu asistencia.">
-<meta property="og:url" content="https://2211carlos.github.io/boda-ismael-josemanuel/">
-<meta property="og:image" content="https://2211carlos.github.io/boda-ismael-josemanuel/images/og.jpg">
+<meta property="og:title" content="💌 Tienes una invitación de boda">
+<meta property="og:description" content="Ismael y José Manuel se casan el 19 de diciembre. Ábrela y confirma tu asistencia.">
+<meta property="og:url" content="https://2211carlos.github.io/ismaelyjosemanuel/">
+<meta property="og:image" content="https://2211carlos.github.io/ismaelyjosemanuel/images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -605,7 +605,9 @@ html:not(.unlocked){overflow:hidden}
   function h(str){var h1=0xdeadbeef,h2=0x41c6ce57;for(var i=0;i<str.length;i++){var c=str.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);}
   try {
     var q = new URLSearchParams(window.__PQ || location.search);
-    var id = (q.get("id") || "").slice(0, 12), k = (q.get("k") || "").toUpperCase().slice(0, 12);
+    var id = (q.get("id") || "").slice(0, 12), k = (q.get("k") || "").toUpperCase().slice(0, 24);
+    if (!id && k.lastIndexOf("-") > 0) { var c = k.lastIndexOf("-"); id = k.slice(0, c); k = k.slice(c + 1); }
+    window.__INV_ID = id;
     if (id && k && Object.prototype.hasOwnProperty.call(OK, id) && OK[id] === h(id + ":" + k)) document.documentElement.classList.add("unlocked");
   } catch (e) {}
 })();
@@ -710,7 +712,7 @@ var CONFIG = {
   try {
     var qs = new URLSearchParams(location.search);
     var clean = function(k){ return (qs.get(k) || "").replace(/\s+/g, " ").trim().slice(0, 40); };
-    var inv = clean("n"); acompNombre = clean("a"); invId = (qs.get("id") || "").slice(0, 12);
+    var inv = clean("n"); acompNombre = clean("a"); invId = window.__INV_ID || (qs.get("id") || "").slice(0, 12);
     plazas = qs.get("p") === "1" ? 1 : (qs.get("p") === "2" || acompNombre) ? 2 : 0;
     if (inv) {
       var etiqueta = "Para " + inv + (plazas === 2 ? (acompNombre ? " y " + acompNombre : " y acompañante") : "");
@@ -1094,7 +1096,7 @@ var CONFIG = {
       "BEGIN:VTIMEZONE","TZID:Europe/Madrid","BEGIN:STANDARD","DTSTART:19701025T030000","RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU","TZOFFSETFROM:+0200","TZOFFSETTO:+0100","TZNAME:CET","END:STANDARD",
       "BEGIN:DAYLIGHT","DTSTART:19700329T020000","RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU","TZOFFSETFROM:+0100","TZOFFSETTO:+0200","TZNAME:CEST","END:DAYLIGHT","END:VTIMEZONE"];
     function ev(uid,ini,fin,res,lug){
-      L.push("BEGIN:VEVENT","UID:"+uid+"@boda-ismael-josemanuel","DTSTAMP:20261031T200000Z",
+      L.push("BEGIN:VEVENT","UID:"+uid+"@ismaelyjosemanuel","DTSTAMP:20261031T200000Z",
         "DTSTART;TZID=Europe/Madrid:"+ini,"DTEND;TZID=Europe/Madrid:"+fin,"SUMMARY:"+res,"LOCATION:"+lug,
         "DESCRIPTION:Boda de Ismael y José Manuel","BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:Mañana es la boda","END:VALARM","END:VEVENT");
     }
