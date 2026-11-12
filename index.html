@@ -658,7 +658,7 @@ html:not(.unlocked){overflow:hidden}
     <div class="in">
       <div class="rv">
         <h2 id="rsvp">Confirma <em>tu asistencia</em></h2>
-        <p class="lead" id="deadline">Necesitamos tu confirmación para organizarlo todo. Tarda menos de un minuto.</p>
+        <p class="lead" id="deadline">Debes confirmar tu asistencia antes del <strong>5 de diciembre</strong>. Tarda menos de un minuto.</p>
         <p class="lead" id="plazas" hidden></p>
       </div>
       <form id="form" class="rv" novalidate>
@@ -915,7 +915,7 @@ var CONFIG = {
       }
     }
   } catch (e) {}
-  if (CONFIG.limite) $("deadline").textContent = "Necesitamos tu confirmación antes del " + CONFIG.limite + ".";
+  if (CONFIG.limite) $("deadline").innerHTML = "Debes confirmar tu asistencia antes del <strong>" + CONFIG.limite + "</strong>. Tarda menos de un minuto.";
 
   /* ---------- Cuenta atrás en vivo (hora de España, diciembre = UTC+1) ---------- */
   var target = new Date(CONFIG.fecha + "T" + (CONFIG.hora || "00:00") + ":00+01:00").getTime();
