@@ -278,19 +278,21 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings svg{width:200px;height:auto;overflow:visible}
 .rings .rg circle,.rings .ov circle{fill:none;stroke-width:1.9;stroke-linecap:round}
 .rings .in2{stroke-width:.7!important;opacity:.7}
-.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1)}
-.rings .rg{opacity:0;transition:transform 2.6s cubic-bezier(.3,.7,.2,1),opacity 1s ease}
-.rings .r1{transform:translateX(-58px)}
-.rings .r2{transform:translateX(58px)}
-.rings.in .rg{transform:none;opacity:1}
+.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)}
+.rings{overflow-x:clip}
+.rings .rg{opacity:0;transform-box:fill-box;transform-origin:center}
+.rings.in .r1{animation:fly1 3.6s cubic-bezier(.3,.55,.25,1) forwards}
+.rings.in .r2{animation:fly2 3.6s cubic-bezier(.3,.55,.25,1) forwards}
+@keyframes fly1{0%{opacity:0;transform:translate(-150px,-46px) rotate(-38deg)}12%{opacity:1}55%{transform:translate(-52px,10px) rotate(10deg)}100%{opacity:1;transform:none}}
+@keyframes fly2{0%{opacity:0;transform:translate(150px,-46px) rotate(38deg)}12%{opacity:1}55%{transform:translate(52px,10px) rotate(-10deg)}100%{opacity:1;transform:none}}
 .rings.in .rg circle{stroke-dashoffset:0}
-.rings .ov{opacity:0;transition:opacity .6s ease 2.5s}
+.rings .ov{opacity:0;transition:opacity .6s ease 3.1s}
 .rings.in .ov{opacity:1}
 .rings .ov .halo{stroke:var(--paper);stroke-width:5.6;stroke-linecap:butt}
-.rings.in svg{animation:floaty 7s ease-in-out 3s infinite}
+.rings.in svg{animation:floaty 7s ease-in-out 3.8s infinite}
 h2 em{background:linear-gradient(currentColor,currentColor) left 96%/0 1.5px no-repeat;transition:background-size 1.3s cubic-bezier(.4,0,.2,1) .35s}
 h2.in em{background-size:100% 1.5px}
-@media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;transition:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}.rings svg{animation:none!important}h2 em{background-size:100% 1.5px!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}.rings svg{animation:none!important}h2 em{background-size:100% 1.5px!important;transition:none!important}}
 /* Ceremonia: la foto se descubre y respira (zoom lento). Celebración: del mapa a la fachada, como en vuelo */
 .kb{overflow:hidden;border-radius:4px;margin-bottom:18px;background:var(--line)}
 .kb .pic{margin:0;border-radius:0;transform-origin:50% 60%}
