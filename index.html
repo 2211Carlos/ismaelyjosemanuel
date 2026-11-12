@@ -664,7 +664,8 @@ html:not(.unlocked){overflow:hidden}
             </select>
           </div>
           <div>
-            <div class="alg">
+            <p class="alnote">El menú no está adaptado a personas con alergias. Si es una alergia grave, escríbenos por WhatsApp antes del 5 de diciembre para ver cómo resolverlo.</p>
+            <div class="alg" hidden>
             <div>
               <label for="alerSi">¿Alguna alergia o intolerancia alimentaria?</label>
               <select id="alerSi" name="alerSi"><option value="0">Ninguna</option><option value="1">Sí</option></select>
@@ -994,10 +995,11 @@ var CONFIG = {
     } else {
       rows.push(["❌", "Asistencia", "Lo siento, no podré asistir"]);
     }
+    rows = rows.filter(function(r){ return !/^Alergias/.test(r[1]); });
     var m = $("msg").value.trim();
     if (m) rows.push(["💬", "Mensaje", m]);
-    var conAlergia = (vienes || soloAc) && $("alerSi").value === "1" && (alergias(1).length || alergias(2).length);
-    var AVISO = "_⚠️ Os indico mis alergias para que las tengáis en cuenta. Entiendo que no se garantiza un menú adaptado y asumo mi elección. Si es grave, os lo comento._";
+    var conAlergia = (vienes || soloAc);
+    var AVISO = "_⚠️ Soy consciente de que el menú no está adaptado a personas con alergias._";
     var head = "Boda de Ismael y José Manuel · 19 de diciembre de 2026";
     var cierre = soloAc ? "¡Nos vemos allí! 🥂" : (vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍");
     message = "💌 *Invitación de boda · Confirmación de asistencia*\n" + head + "\n\n" +
@@ -1035,7 +1037,7 @@ var CONFIG = {
     var btn = form.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Enviando…";
     var quien = soloAc ? "Solo acompañante" : vienes ? (plazas === 2 && +$("acomp").value ? "Los dos" : "Solo invitado") : "Ninguno";
     var payload = {id: invId, nombre: nombre, asiste: vienes ? "Sí" : "No", acompanantes: vienes ? +$("acomp").value : (soloAc ? 1 : 0),
-      quien: quien, alergiasInvitado: (vienes) ? alG(1) : "", alergiasAcompanante: (soloAc || (vienes && plazas === 2 && +$("acomp").value === 1)) ? alG(2) : "", mensaje: m};
+      quien: quien, alergiasInvitado: "", alergiasAcompanante: "", mensaje: m};
     var to = new AbortController(); var tm = setTimeout(function(){ to.abort(); }, 15000);
     fetch(CONFIG.hoja, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
       body: JSON.stringify(payload), signal: to.signal})
