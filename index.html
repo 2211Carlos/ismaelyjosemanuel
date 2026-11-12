@@ -278,13 +278,13 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings svg{width:200px;height:auto;overflow:visible}
 .rings .rg circle,.rings .ov circle{fill:none;stroke-width:1.9;stroke-linecap:round}
 .rings .in2{stroke-width:.7!important;opacity:.7}
-.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)}
+.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1) 2.4s}
 .rings{overflow-x:clip}
 .rings .rg{opacity:0;transform-box:fill-box;transform-origin:center}
-.rings.in .r1{animation:fly1 3.6s cubic-bezier(.3,.55,.25,1) forwards}
-.rings.in .r2{animation:fly2 3.6s cubic-bezier(.3,.55,.25,1) forwards}
-@keyframes fly1{0%{opacity:0;transform:translate(-150px,-46px) rotate(-38deg)}12%{opacity:1}55%{transform:translate(-52px,10px) rotate(10deg)}100%{opacity:1;transform:none}}
-@keyframes fly2{0%{opacity:0;transform:translate(150px,-46px) rotate(38deg)}12%{opacity:1}55%{transform:translate(52px,10px) rotate(-10deg)}100%{opacity:1;transform:none}}
+.rings.in .r1{animation:born1 1.8s cubic-bezier(.2,.8,.2,1) 2.3s forwards}
+.rings.in .r2{animation:born2 1.8s cubic-bezier(.2,.8,.2,1) 2.3s forwards}
+@keyframes born1{0%{opacity:0;transform:translate(9px,-15px) scale(.2)}20%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes born2{0%{opacity:0;transform:translate(-9px,-15px) scale(.2)}20%{opacity:1}100%{opacity:1;transform:none}}
 .rings.in .rg circle{stroke-dashoffset:0}
 .rings .bd,.rings .wg{fill:#fff;stroke:#5ea3d6;stroke-width:.8;stroke-linejoin:round}
 .rings .wb{fill:#e8f1fa}
@@ -292,13 +292,17 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings .wg{transform-box:fill-box;transform-origin:44% 100%;animation:flap .4s ease-in-out infinite alternate}
 .rings .wb{animation-delay:-.12s}
 .rings .dv{opacity:1}
-.rings.in .dv{animation:dvgo 1.9s ease-in 3.4s forwards}
+.rings .dv{opacity:0}
+.rings.in .dv{animation:dfly 2.8s cubic-bezier(.35,.5,.3,1) forwards}
 @keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.85)}}
-@keyframes dvgo{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(30px,-50px)}}
-.rings .ov{opacity:0;transition:opacity .6s ease 3.1s}
+@keyframes dfly{0%{opacity:0;transform:translate(-112px,-26px)}10%{opacity:1}60%{opacity:1;transform:translate(-44px,6px)}84%{opacity:1;transform:translate(-4px,0) scale(1)}100%{opacity:0;transform:translate(2px,-3px) scale(.25)}}
+.rings .flash{fill:none;stroke:#9fd0f2;stroke-width:1.2;opacity:0;transform-box:fill-box;transform-origin:center}
+.rings.in .flash{animation:flash 1.1s ease-out 2.35s forwards}
+@keyframes flash{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(6)}}
+.rings .ov{opacity:0;transition:opacity .6s ease 4.1s}
 .rings.in .ov{opacity:1}
 .rings .ov .halo{stroke:var(--paper);stroke-width:5.6;stroke-linecap:butt}
-.rings.in svg{animation:floaty 7s ease-in-out 3.8s infinite}
+.rings.in svg{animation:floaty 7s ease-in-out 4.8s infinite}
 h2 em{background:linear-gradient(currentColor,currentColor) left 96%/0 1.5px no-repeat;transition:background-size 1.3s cubic-bezier(.4,0,.2,1) .35s}
 h2.in em{background-size:100% 1.5px}
 @media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}.rings .dv{display:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}.rings svg{animation:none!important}h2 em{background-size:100% 1.5px!important;transition:none!important}}
@@ -549,12 +553,16 @@ html:not(.unlocked){overflow:hidden}
         <linearGradient id="gB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f78b8"/><stop offset="1" stop-color="#9fd0f2"/></linearGradient>
         <g id="dove"><path class="wg wb" d="M-2 -1 C-7 -10 1 -17 11 -20 C8 -12 7 -6 6 -1 Z"/><path class="bd" d="M-16 6 L-9 2 C-6 -2 2 -4 8 -3 C10 -6 14 -7 16 -4 L21 -3 L16 -1 C15 3 9 6 2 6 C-3 6 -8 6 -16 6 Z"/><circle class="ey" cx="14" cy="-4" r=".9"/><path class="wg wf" d="M-3 0 C-8 -9 0 -16 10 -19 C7 -11 6 -5 5 0 Z"/></g><clipPath id="cBot"><circle cx="60" cy="59.4" r="9"/></clipPath>
       </defs>
-      <g class="rg r2"><circle cx="69" cy="35" r="26" stroke="url(#gB)"/><circle class="in2" cx="69" cy="35" r="22.6" stroke="url(#gB)"/><g transform="translate(69 1) scale(-1.5 1.5)"><g class="dv"><use href="#dove" xlink:href="#dove"/></g></g></g>
-      <g class="rg r1"><circle cx="51" cy="35" r="26" stroke="url(#gG)"/><circle class="in2" cx="51" cy="35" r="22.6" stroke="url(#gG)"/><g transform="translate(51 1) scale(1.5)"><g class="dv"><use href="#dove" xlink:href="#dove"/></g></g></g>
+      <g class="rg r2"><circle cx="69" cy="35" r="26" stroke="url(#gB)"/><circle class="in2" cx="69" cy="35" r="22.6" stroke="url(#gB)"/></g>
+      <g class="rg r1"><circle cx="51" cy="35" r="26" stroke="url(#gG)"/><circle class="in2" cx="51" cy="35" r="22.6" stroke="url(#gG)"/></g>
       <g class="ov" clip-path="url(#cBot)">
         <circle class="halo" cx="69" cy="35" r="24.3"/>
         <circle cx="69" cy="35" r="26" stroke="url(#gB)"/><circle class="in2" cx="69" cy="35" r="22.6" stroke="url(#gB)"/>
       </g>
+    
+      <circle class="flash" cx="60" cy="20" r="4"/>
+      <g transform="translate(36 20) scale(1.5)"><g class="dv"><use href="#dove" xlink:href="#dove"/></g></g>
+      <g transform="translate(84 20) scale(-1.5 1.5)"><g class="dv"><use href="#dove" xlink:href="#dove"/></g></g>
     </svg>
   </div>
 
