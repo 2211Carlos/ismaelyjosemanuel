@@ -274,9 +274,9 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 @keyframes dot{0%,100%{opacity:.2}50%{opacity:1}}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 /* Añadidos de movimiento sencillos: anillos que se dibujan y se entrelazan, y subrayado que se traza bajo la palabra destacada */
-.rings{display:flex;justify-content:center;padding:44px 0 8px}
-.rings svg{width:132px;height:auto;overflow:visible}
-.rings circle{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1)}
+.rings{display:flex;justify-content:center;padding:52px 0 16px}
+.rings svg{width:190px;height:auto;overflow:visible}
+.rings circle{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1)}
 .rings .r1{stroke:var(--wax);transform:translateX(-17px);transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1),transform 2.6s cubic-bezier(.2,.8,.2,1) 1.8s}
 .rings .r2{stroke:#5ea3d6;transform:translateX(17px);transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1) .5s,transform 2.6s cubic-bezier(.2,.8,.2,1) 1.8s}
 .rings.in circle{stroke-dashoffset:0}
@@ -489,7 +489,7 @@ html:not(.unlocked){overflow:hidden}
   </div>
 
   <div class="rings" aria-hidden="true">
-    <svg viewBox="0 0 120 70"><circle class="r1" cx="45" cy="35" r="26" pathLength="1"/><circle class="r2" cx="75" cy="35" r="26" pathLength="1"/></svg>
+    <svg viewBox="0 0 120 70"><circle class="r1" cx="45" cy="35" r="26"/><circle class="r2" cx="75" cy="35" r="26"/></svg>
   </div>
 
   <section class="band" aria-labelledby="cd">
@@ -664,7 +664,7 @@ html:not(.unlocked){overflow:hidden}
   try {
     var els = document.querySelectorAll(".rings,h2");
     if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(els, function(e){ e.classList.add("in"); }); return; }
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold: .6});
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold: .25});
     Array.prototype.forEach.call(els, function(e){ io.observe(e); });
   } catch (e) {}
 })();
