@@ -284,11 +284,11 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings .ov{opacity:0;transition:opacity .6s ease 2.7s}
 .rings.in .ov{opacity:1}
 .rings .ov .halo{stroke:var(--paper);stroke-width:5.6;stroke-linecap:butt}
-.rings .gem{fill:var(--wax);opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .8s ease 2.6s}
+.rings .gem{fill:#5ea3d6;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .8s ease 2.6s}
 .rings .gem.g2{fill:#5ea3d6}
 .rings.in .gem{opacity:1;animation:gem 3.6s ease-in-out 3.4s infinite}
 .rings.in .gem.g2{animation-delay:4.4s}
-.rings .spark{fill:none;stroke:var(--wax-soft);stroke-width:.9;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:center}
+.rings .spark{fill:none;stroke:#9fd0f2;stroke-width:.9;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:center}
 .rings.in .spark{animation:spark 4.2s ease-in-out 3.8s infinite}
 .rings.in svg{animation:floaty 7s ease-in-out 3s infinite}
 @keyframes gem{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.65}}
@@ -534,7 +534,7 @@ html:not(.unlocked){overflow:hidden}
   <div class="rings" aria-hidden="true">
     <svg viewBox="0 0 120 70">
       <defs>
-        <linearGradient id="gG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f6a3e"/><stop offset="1" stop-color="#7fd6a4"/></linearGradient>
+        <linearGradient id="gG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f78b8"/><stop offset="1" stop-color="#9fd0f2"/></linearGradient>
         <linearGradient id="gB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f78b8"/><stop offset="1" stop-color="#9fd0f2"/></linearGradient>
         <clipPath id="cBot"><circle cx="60" cy="59.4" r="9"/></clipPath>
       </defs>
