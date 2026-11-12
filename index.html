@@ -985,7 +985,7 @@ var CONFIG = {
     var m = $("msg").value.trim();
     if (m) rows.push(["💬", "Mensaje", m]);
     var conAlergia = (vienes || soloAc) && $("alerSi").value === "1" && (alergias(1).length || alergias(2).length);
-    var AVISO = "⚠️ Soy consciente de que los menús no están diseñados para personas con alergias y asumo la responsabilidad de mi elección. Si es una alergia grave, os lo comento por WhatsApp.";
+    var AVISO = "_⚠️ Menús no adaptados a alergias; asumo mi responsabilidad. Si es grave, os lo comento._";
     var head = "Boda de Ismael y José Manuel · 19 de diciembre de 2026";
     var cierre = soloAc ? "¡Nos vemos allí! 🥂" : (vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍");
     message = "💌 *Invitación de boda · Confirmación de asistencia*\n" + head + "\n\n" +
