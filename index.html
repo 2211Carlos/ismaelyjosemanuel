@@ -780,8 +780,30 @@ var CONFIG = {
   function alergias(k){
     return Array.prototype.map.call(form.querySelectorAll("input[name=al"+k+"]:checked"), function(i){ return i.value; });
   }
-  form.addEventListener("change", toggleExtra);
-  toggleExtra();
+  /* Los desplegables se muestran como botones grandes (un solo toque). El select sigue existiendo, oculto, y guarda el valor. */
+  function segs(){
+    ["acomp","soloAcomp","alerSi"].forEach(function(id){
+      var sel = $(id), box = $("sg_" + id);
+      if (!box) {
+        box = document.createElement("fieldset"); box.className = "seg"; box.id = "sg_" + id;
+        sel.parentNode.insertBefore(box, sel.nextSibling);
+        sel.style.display = "none"; sel.setAttribute("aria-hidden", "true"); sel.tabIndex = -1;
+      }
+      var sig = Array.prototype.map.call(sel.options, function(o){ return o.value + "|" + o.textContent; }).join("§");
+      if (box.getAttribute("data-sig") !== sig) {
+        box.setAttribute("data-sig", sig); box.textContent = "";
+        Array.prototype.forEach.call(sel.options, function(o, i){
+          var r = document.createElement("input"); r.type = "radio"; r.name = "sg_" + id; r.id = "sg_" + id + "_" + i; r.value = o.value;
+          var l = document.createElement("label"); l.setAttribute("for", r.id); l.textContent = o.textContent;
+          r.addEventListener("change", function(){ if (r.checked) { sel.value = r.value; sel.dispatchEvent(new Event("change", {bubbles:true})); } });
+          box.appendChild(r); box.appendChild(l);
+        });
+      }
+      Array.prototype.forEach.call(box.querySelectorAll("input"), function(r){ r.checked = r.value === sel.value; });
+    });
+  }
+  form.addEventListener("change", function(){ toggleExtra(); segs(); });
+  toggleExtra(); segs();
 
   var message = "";
   form.addEventListener("submit", function(e){
