@@ -278,25 +278,19 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings svg{width:200px;height:auto;overflow:visible}
 .rings .rg circle,.rings .ov circle{fill:none;stroke-width:1.9;stroke-linecap:round}
 .rings .in2{stroke-width:.7!important;opacity:.7}
-.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)}
-.rings .r2 circle{transition-delay:.45s}
+.rings .rg circle{stroke-dasharray:165;stroke-dashoffset:165;transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1)}
+.rings .rg{opacity:0;transition:transform 2.6s cubic-bezier(.3,.7,.2,1),opacity 1s ease}
+.rings .r1{transform:translateX(-58px)}
+.rings .r2{transform:translateX(58px)}
+.rings.in .rg{transform:none;opacity:1}
 .rings.in .rg circle{stroke-dashoffset:0}
-.rings .ov{opacity:0;transition:opacity .6s ease 2.7s}
+.rings .ov{opacity:0;transition:opacity .6s ease 2.5s}
 .rings.in .ov{opacity:1}
 .rings .ov .halo{stroke:var(--paper);stroke-width:5.6;stroke-linecap:butt}
-.rings .gem{fill:#5ea3d6;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .8s ease 2.6s}
-.rings .gem.g2{fill:#5ea3d6}
-.rings.in .gem{opacity:1;animation:gem 3.6s ease-in-out 3.4s infinite}
-.rings.in .gem.g2{animation-delay:4.4s}
-.rings .spark{fill:none;stroke:#9fd0f2;stroke-width:.9;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:center}
-.rings.in .spark{animation:spark 4.2s ease-in-out 3.8s infinite}
 .rings.in svg{animation:floaty 7s ease-in-out 3s infinite}
-@keyframes gem{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.65}}
-@keyframes spark{0%,70%,100%{opacity:0;transform:scale(.4) rotate(0)}85%{opacity:1;transform:scale(1.15) rotate(45deg)}}
 h2 em{background:linear-gradient(currentColor,currentColor) left 96%/0 1.5px no-repeat;transition:background-size 1.3s cubic-bezier(.4,0,.2,1) .35s}
 h2.in em{background-size:100% 1.5px}
-@media (prefers-reduced-motion:reduce){.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}.rings .gem{opacity:1!important;animation:none!important;transition:none!important}.rings svg{animation:none!important}h2 em{background-size:100% 1.5px!important;transition:none!important}}
-/* Ceremonia: la foto se descubre y respira (zoom lento). Celebración: del mapa a la fachada, como en vuelo */
+@media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;transition:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}/* Ceremonia: la foto se descubre y respira (zoom lento). Celebración: del mapa a la fachada, como en vuelo */
 .kb{overflow:hidden;border-radius:4px;margin-bottom:18px;background:var(--line)}
 .kb .pic{margin:0;border-radius:0;transform-origin:50% 60%}
 .kb{position:relative}
@@ -544,9 +538,6 @@ html:not(.unlocked){overflow:hidden}
         <circle class="halo" cx="69" cy="35" r="24.3"/>
         <circle cx="69" cy="35" r="26" stroke="url(#gB)"/><circle class="in2" cx="69" cy="35" r="22.6" stroke="url(#gB)"/>
       </g>
-      <path class="gem" d="M51 3.2 L54.2 7 L51 10.8 L47.8 7 Z"/>
-      <path class="gem g2" d="M69 3.2 L72.2 7 L69 10.8 L65.8 7 Z"/>
-      <path class="spark" d="M60 30 v10 M55 35 h10"/>
     </svg>
   </div>
 
