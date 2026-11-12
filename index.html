@@ -290,7 +290,8 @@ footer small{display:block;margin-top:10px;font-size:13px;font-weight:400;letter
 .rings.in svg{animation:floaty 7s ease-in-out 3s infinite}
 h2 em{background:linear-gradient(currentColor,currentColor) left 96%/0 1.5px no-repeat;transition:background-size 1.3s cubic-bezier(.4,0,.2,1) .35s}
 h2.in em{background-size:100% 1.5px}
-@media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;transition:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}/* Ceremonia: la foto se descubre y respira (zoom lento). Celebración: del mapa a la fachada, como en vuelo */
+@media (prefers-reduced-motion:reduce){.rings .rg{opacity:1!important;transform:none!important;transition:none!important}.rings .rg circle{stroke-dashoffset:0!important;transition:none!important}.rings .ov{opacity:1!important;transition:none!important}.rings svg{animation:none!important}h2 em{background-size:100% 1.5px!important;transition:none!important}}
+/* Ceremonia: la foto se descubre y respira (zoom lento). Celebración: del mapa a la fachada, como en vuelo */
 .kb{overflow:hidden;border-radius:4px;margin-bottom:18px;background:var(--line)}
 .kb .pic{margin:0;border-radius:0;transform-origin:50% 60%}
 .kb{position:relative}
