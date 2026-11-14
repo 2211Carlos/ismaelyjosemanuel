@@ -208,8 +208,8 @@ input[readonly]{cursor:default;border-bottom-color:var(--line)!important;box-sha
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:0;padding:0;margin:0;min-width:0}
 .seg legend{padding:0;margin:0 0 12px;font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .seg input{position:absolute;opacity:0;pointer-events:none}
-.seg label{margin:0;display:flex;align-items:center;justify-content:center;min-height:64px;padding:8px 10px;border:1px solid var(--fg);color:var(--fg);font-size:15px;font-weight:500;letter-spacing:.06em;text-align:center;cursor:pointer;transition:background .35s,color .35s}
-.seg input:checked + label{background:var(--fg);color:var(--paper)}
+.seg label{margin:0;display:flex;align-items:center;justify-content:center;min-height:64px;padding:8px 10px;border:1px solid var(--fg);color:var(--fg);font-size:15px;font-weight:500;letter-spacing:.06em;text-align:center;cursor:pointer;background:transparent;-webkit-tap-highlight-color:transparent}
+.seg input:checked + label,.seg label.on{background:var(--fg);color:var(--paper)}.seg input:not(:checked) + label:not(.on){background:transparent;color:var(--fg)}
 .seg input:focus-visible + label{outline:2px solid var(--wax);outline-offset:4px}
 .btn{appearance:none;font:500 16px var(--body);letter-spacing:.12em;text-transform:uppercase;min-height:64px;border:1px solid var(--wax);color:var(--wax-fg);
   background:linear-gradient(var(--fg),var(--fg)) no-repeat 0 0/0% 100%,var(--wax);padding:14px 20px;cursor:pointer;width:100%;
@@ -1011,7 +1011,7 @@ var CONFIG = {
           box.appendChild(r); box.appendChild(l);
         });
       }
-      Array.prototype.forEach.call(box.querySelectorAll("input"), function(r){ r.checked = r.value === sel.value; });
+      Array.prototype.forEach.call(box.querySelectorAll("input"), function(r){ r.checked = r.value === sel.value; r.nextSibling.className = r.checked ? "on" : ""; });
     });
   }
   form.addEventListener("change", function(){ toggleExtra(); segs(); });
@@ -1043,28 +1043,30 @@ var CONFIG = {
     } else {
       rows.push(["❌", "Asistencia", "Lo siento, no podré asistir"]);
     }
-    rows = rows.filter(function(r){ return !/^Alergias/.test(r[1]); });
     var m = $("msg").value.trim();
-    if (m) rows.push(["💬", "Mensaje", m]);
-    var conAlergia = (vienes || soloAc);
-    var AVISO = "_⚠️ Menús no adaptados a alergias; asumo mi responsabilidad. Si es grave, os lo comento._";
-    var head = "Boda de Ismael y José Manuel · 19 de diciembre de 2026";
-    var cierre = soloAc ? "¡Nos vemos allí! 🥂" : (vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍");
-    message = "💌 *Invitación de boda · Confirmación de asistencia*\n" + head + "\n\n" +
-      rows.map(function(r){ return r[0] + " *" + r[1] + ":* " + r[2]; }).join("\n") +
-      (conAlergia ? "\n\n" + AVISO : "") +
-      "\n\n" + cierre;
+    var parLbl = nombre + (acompNombre ? " y " + acompNombre : (plazas === 2 ? " y acompañante" : ""));
+    var lines = [];
+    if (soloAc) lines.push("⚠️ " + nombre + " no puede ir, pero " + (acompNombre || "su acompañante") + " sí.");
+    else if (vienes) lines.push(+$("acomp").value >= 1 ? "✅ " + parLbl + ": vamos los dos." : (plazas === 2 ? "✅ " + nombre + ": voy yo solo/a." : "✅ " + nombre + ": asistiré."));
+    else lines.push(plazas === 2 ? "❌ " + parLbl + ": no podemos ir." : "❌ " + nombre + ": no podré ir.");
+    var okA = function(v){ return v && v !== "Ninguna" && v !== "No indicadas"; };
+    var fn = function(t){ return t ? t.split(" ")[0] : "acompañante"; };
+    var aL = [];
+    if (soloAc) { var x2 = alG(2); if (okA(x2)) aL.push(fn(acompNombre) + " (" + x2 + ")"); }
+    else if (vienes) {
+      var x1 = alG(1), x2b = (plazas === 2 && +$("acomp").value === 1) ? alG(2) : "";
+      if (okA(x1)) aL.push(okA(x2b) ? fn(nombre) + " (" + x1 + ")" : x1);
+      if (okA(x2b)) aL.push(fn(acompNombre) + " (" + x2b + ")");
+    }
+    if (aL.length) lines.push("🍽️ Alergias: " + aL.join(" · "));
+    if (m) lines.push("💬 «" + m + "»");
+    message = lines.join("\n");
     var pv = $("preview"); pv.textContent = "";
-    var t1 = document.createElement("p"); t1.className = "pv-t"; t1.textContent = "💌 Invitación de boda · Confirmación de asistencia"; pv.appendChild(t1);
-    var t2 = document.createElement("p"); t2.className = "pv-s"; t2.textContent = head; pv.appendChild(t2);
-    rows.forEach(function(r){
+    lines.forEach(function(t){
       var d = document.createElement("p"); d.className = "pv-r";
-      var l = document.createElement("span"); l.className = "pv-l"; l.textContent = r[0] + " " + r[1];
-      var v = document.createElement("span"); v.className = "pv-v"; v.textContent = r[2];
-      d.appendChild(l); d.appendChild(v); pv.appendChild(d);
+      var v = document.createElement("span"); v.className = "pv-v"; v.textContent = t;
+      d.appendChild(v); pv.appendChild(d);
     });
-    if (conAlergia) { var ta = document.createElement("p"); ta.className = "pv-s"; ta.style.margin = "14px 0 0"; ta.textContent = AVISO; pv.appendChild(ta); }
-    var t3 = document.createElement("p"); t3.className = "pv-f"; t3.textContent = vienes ? "¡Nos vemos allí! 🥂" : "Os mando un abrazo muy fuerte 🤍"; pv.appendChild(t3);
     $("wa").href = "https://wa.me/" + (CONFIG.whatsapp || "") + "?text=" + encodeURIComponent(message);
     $("status").textContent = "";
     var steps = $("steps"), title = $("rtitle"), saved = $("saved");
