@@ -797,7 +797,8 @@ html:not(.unlocked){overflow:hidden}
   function h(str){var h1=0xdeadbeef,h2=0x41c6ce57;for(var i=0;i<str.length;i++){var c=str.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);}
   try {
     var q = new URLSearchParams(window.__PQ || location.search);
-    var id = (q.get("id") || "").slice(0, 12), k = (q.get("k") || "").toUpperCase().slice(0, 24);
+    var kr = (q.get("k") || "").split("~"); window.__PK = { n: (kr[1] || "").replace(/_/g, " "), a: (kr[2] || "").replace(/_/g, " "), p: kr[2] === "1" || kr[2] === "2" ? kr[2] : "" }; if (window.__PK.p) window.__PK.a = "";
+    var id = (q.get("id") || "").slice(0, 12), k = kr[0].toUpperCase().slice(0, 24);
     if (!id && k.lastIndexOf("-") > 0) { var c = k.lastIndexOf("-"); id = k.slice(0, c); k = k.slice(c + 1); }
     window.__INV_ID = id;
     if (id && k && Object.prototype.hasOwnProperty.call(OK, id) && OK[id] === h(id + ":" + k)) document.documentElement.classList.add("unlocked");
@@ -906,8 +907,9 @@ var CONFIG = {
   try {
     var qs = new URLSearchParams(location.search);
     var clean = function(k){ return (qs.get(k) || "").replace(/\s+/g, " ").trim().slice(0, 40); };
-    var inv = clean("n"); acompNombre = clean("a"); invId = window.__INV_ID || (qs.get("id") || "").slice(0, 12);
-    plazas = qs.get("p") === "1" ? 1 : (qs.get("p") === "2" || acompNombre) ? 2 : 0;
+    var pk = window.__PK || {}; var cl2 = function(v){ return (v || "").replace(/\s+/g, " ").trim().slice(0, 40); };
+    var inv = clean("n") || cl2(pk.n); acompNombre = clean("a") || cl2(pk.a); invId = window.__INV_ID || (qs.get("id") || "").slice(0, 12);
+    var pp = qs.get("p") || pk.p; plazas = pp === "1" ? 1 : (pp === "2" || acompNombre) ? 2 : 0;
     if (inv) {
       var etiqueta = "Para " + inv + (plazas === 2 ? (acompNombre ? " y " + acompNombre : " y acompañante") : "");
       var lb = document.querySelector(".label b"); if (lb) lb.textContent = etiqueta;
