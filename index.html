@@ -734,6 +734,7 @@ html:not(.unlocked){overflow:hidden}
         <p class="status" id="saved" aria-live="polite"></p>
         <div class="preview" id="preview"></div>
         <a class="btn" id="wa" href="https://wa.me/" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a class="btn" id="wa2" href="https://wa.me/" target="_blank" rel="noopener" hidden>Avisar también a quien te invitó</a>
         <p class="status" id="status" aria-live="polite"></p>
         <ol class="steps" id="steps">
           <li>Toca "Enviar por WhatsApp".</li>
@@ -1067,18 +1068,33 @@ var CONFIG = {
       var v = document.createElement("span"); v.className = "pv-v"; v.textContent = t;
       d.appendChild(v); pv.appendChild(d);
     });
-    $("wa").href = "https://wa.me/" + (CONFIG.whatsapp || "") + "?text=" + encodeURIComponent(message);
+    var waText = encodeURIComponent(message);
+    $("wa").href = "https://wa.me/" + (CONFIG.whatsapp || "") + "?text=" + waText;
+    var wa2 = $("wa2"); wa2.hidden = true;
+    (function(){
+      if (!CONFIG.hoja || !invId) return;
+      var cbName = "__quienCb" + Math.random().toString(36).slice(2);
+      var s = document.createElement("script");
+      function limpia(){ try{ delete window[cbName]; }catch(e){ window[cbName] = undefined; } if (s.parentNode) s.parentNode.removeChild(s); }
+      window[cbName] = function(d){
+        if (d && d.tel) { wa2.href = "https://wa.me/" + d.tel + "?text=" + waText; wa2.textContent = "Avisar también a " + (d.nombre || "quien te invitó"); wa2.hidden = false; }
+        limpia();
+      };
+      s.onerror = limpia;
+      s.src = CONFIG.hoja + "?a=quien&id=" + encodeURIComponent(invId) + "&cb=" + cbName;
+      document.body.appendChild(s);
+    })();
     $("status").textContent = "";
     var steps = $("steps"), title = $("rtitle"), saved = $("saved");
     function showResult(ok){
       if (ok) {
         title.textContent = "¡Confirmación recibida!";
         saved.textContent = "Gracias, " + nombre + ". Ya lo tenemos apuntado. Si quieres, avísanos también por WhatsApp.";
-        steps.hidden = true; $("wa").textContent = "Avisar también por WhatsApp";
+        steps.hidden = true; $("wa").textContent = "Avisar también a Carlos";
       } else {
         title.textContent = "Último paso";
         saved.textContent = CONFIG.hoja ? "No hemos podido guardarla directamente. Envíala por WhatsApp para que nos llegue." : "";
-        steps.hidden = false; $("wa").textContent = "Enviar por WhatsApp";
+        steps.hidden = false; $("wa").textContent = "Enviar a Carlos por WhatsApp";
       }
       form.hidden = true; result.hidden = false;
       result.scrollIntoView({block:"nearest"});
