@@ -200,6 +200,10 @@ input[readonly]{cursor:default;border-bottom-color:var(--line)!important;box-sha
 .alg legend{padding:0;margin:0 0 8px;font:italic 400 22px var(--display);color:var(--fg)}
 .chk{display:flex;align-items:center;gap:12px;min-height:52px;margin:0;font:400 19px/1.3 var(--body);letter-spacing:0;text-transform:none;color:var(--fg);cursor:pointer}
 .chk input{width:28px;height:28px;flex:none;margin:0;accent-color:var(--wax)}
+.priv{margin:6px 0 0;font-size:15px;line-height:1.5;color:var(--fg);opacity:.9}
+.priv summary{cursor:pointer;padding:10px 0;text-decoration:underline;text-underline-offset:3px}
+.priv p{margin:0 0 10px}
+.priv a{color:inherit}
 .alnote{margin:0;padding:12px 14px;border-left:2px solid var(--wax);font-size:16px;line-height:1.5;color:var(--fg)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:0;padding:0;margin:0;min-width:0}
 .seg legend{padding:0;margin:0 0 12px;font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -702,7 +706,8 @@ html:not(.unlocked){overflow:hidden}
             <div id="alerGrupos" class="alg" hidden>
               <fieldset id="alg1" hidden><legend id="algL1">Tú</legend><label class="chk"><input type="checkbox" name="al1" value="Gluten (celiaquía)">Gluten (celiaquía)</label><label class="chk"><input type="checkbox" name="al1" value="Lácteos / lactosa">Lácteos / lactosa</label><label class="chk"><input type="checkbox" name="al1" value="Marisco (crustáceos y moluscos)">Marisco (crustáceos y moluscos)</label><label class="chk"><input type="checkbox" name="al1" value="Huevo">Huevo</label></fieldset>
               <fieldset id="alg2" hidden><legend id="algL2">Acompañante</legend><label class="chk"><input type="checkbox" name="al2" value="Gluten (celiaquía)">Gluten (celiaquía)</label><label class="chk"><input type="checkbox" name="al2" value="Lácteos / lactosa">Lácteos / lactosa</label><label class="chk"><input type="checkbox" name="al2" value="Marisco (crustáceos y moluscos)">Marisco (crustáceos y moluscos)</label><label class="chk"><input type="checkbox" name="al2" value="Huevo">Huevo</label></fieldset>
-              <p class="alnote">Anotamos tus alergias para tenerlas en cuenta con el hotel, aunque no podemos garantizar un menú adaptado. Si es una alergia grave, escríbenos por WhatsApp antes del 5 de diciembre para ver cómo resolverlo.</p>
+              <p class="alnote">Lo anotamos solo como información para los novios: no preparamos un menú especial. Si es una alergia grave, escríbenos por WhatsApp antes del 5 de diciembre para ver cómo resolverlo.</p>
+              <label class="chk" for="alCons"><input type="checkbox" id="alCons" name="alCons">Acepto que Ismael y José Manuel guarden esta información sobre mis alergias o intolerancias. Es opcional: sin marcarla, puedes confirmar igualmente.</label>
             </div>
           </div>
           </div>
@@ -713,6 +718,15 @@ html:not(.unlocked){overflow:hidden}
         </div>
         <p class="err" id="err" role="alert"></p>
         <button class="btn" type="submit">Enviar mi confirmación</button>
+        <details class="priv">
+          <summary>Cómo tratamos tus datos</summary>
+          <p><b>¿Quién guarda tus datos?</b> Ismael Cartaya y José Manuel Susquiro, los novios, a título personal. Los gestiona Carlos Araya, que ha creado esta web y la hoja privada de respuestas.</p>
+          <p><b>¿Qué datos?</b> Tu nombre, si vienes, cuántas personas venís y, solo si tú lo marcas, tus alergias o intolerancias y las de tu acompañante.</p>
+          <p><b>¿Para qué?</b> Para organizar la boda: contar los asistentes y poner las mesas. Las alergias se guardan solo como información para los novios; no se prepara un menú especial. No se usan para nada más ni se venden.</p>
+          <p><b>¿Dónde se guardan?</b> En una hoja de cálculo privada de Google, a la que solo acceden los novios y Carlos Araya, y en el WhatsApp con tu confirmación.</p>
+          <p><b>¿Hasta cuándo?</b> Hasta un mes después de la boda, hasta el 19 de enero de 2027. Después se borran.</p>
+          <p><b>Tus derechos.</b> Puedes pedir en cualquier momento ver, corregir o borrar tus datos, o retirar tu consentimiento sobre las alergias, escribiendo por WhatsApp a Carlos Araya (<a href="https://wa.me/34613951299" target="_blank" rel="noopener">613 95 12 99</a>). Si crees que no los tratamos bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+        </details>
       </form>
 
       <div id="result" hidden>
@@ -800,7 +814,7 @@ html:not(.unlocked){overflow:hidden}
     var kr = (q.get("k") || "").split("~"); window.__PK = { n: (kr[1] || "").replace(/_/g, " "), a: (kr[2] || "").replace(/_/g, " "), p: kr[2] === "1" || kr[2] === "2" ? kr[2] : "" }; if (window.__PK.p) window.__PK.a = "";
     var id = (q.get("id") || "").slice(0, 12), k = kr[0].toUpperCase().slice(0, 24);
     if (!id && k.lastIndexOf("-") > 0) { var c = k.lastIndexOf("-"); id = k.slice(0, c); k = k.slice(c + 1); }
-    window.__INV_ID = id;
+    window.__INV_ID = id; window.__KEY = k;
     if (id && k && Object.prototype.hasOwnProperty.call(OK, id) && OK[id] === h(id + ":" + k)) document.documentElement.classList.add("unlocked");
   } catch (e) {}
 })();
@@ -1012,7 +1026,7 @@ var CONFIG = {
     var vienes = form.asis.value === "si";
     var soloAc = !vienes && plazas === 2 && $("soloAcomp").value === "1";
     var rows = [["👤", "Nombre", nombre]];
-    function alG(k){ if ($("alerSi").value !== "1") return "Ninguna"; var a = alergias(k); return a.length ? a.join(", ") : "Ninguna"; }
+    function alG(k){ if ($("alerSi").value !== "1") return "Ninguna"; if (!$("alCons").checked) return "No indicadas"; var a = alergias(k); return a.length ? a.join(", ") : "Ninguna"; }
     if (soloAc) {
       var menuA = alG(2);
       rows.push(["❌", "Asistencia", "Yo no podré asistir"]);
@@ -1070,8 +1084,10 @@ var CONFIG = {
     if (!CONFIG.hoja) { showResult(false); return; }
     var btn = form.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Enviando…";
     var quien = soloAc ? "Solo acompañante" : vienes ? (plazas === 2 && +$("acomp").value ? "Los dos" : "Solo invitado") : "Ninguno";
-    var payload = {id: invId, nombre: nombre, asiste: vienes ? "Sí" : "No", acompanantes: vienes ? +$("acomp").value : (soloAc ? 1 : 0),
-      quien: quien, alergiasInvitado: "", alergiasAcompanante: "", mensaje: m};
+    var aI = "", aA = "";
+    if (soloAc) aA = alG(2); else if (vienes) { aI = alG(1); if (plazas === 2 && +$("acomp").value === 1) aA = alG(2); }
+    var payload = {id: invId, k: window.__KEY || "", nombre: nombre, asiste: vienes ? "Sí" : "No", acompanantes: vienes ? +$("acomp").value : (soloAc ? 1 : 0),
+      quien: quien, alergiasInvitado: aI, alergiasAcompanante: aA, mensaje: m};
     var to = new AbortController(); var tm = setTimeout(function(){ to.abort(); }, 15000);
     fetch(CONFIG.hoja, {method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
       body: JSON.stringify(payload), signal: to.signal})
